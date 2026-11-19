@@ -1,4 +1,15 @@
-# TrEnDB
+# TrEDBox
+
+**TrEDBox** (Triplet Energy and Redox Potential Database) brings together two curated databases for
+photocatalysis and their tools:
+
+- **TrEnDB** (green, with the two yellow antennas): triplet energies, with **PlotEnT** for energy-transfer plots.
+- **ReDBox** (violet, with the cyclic-voltammetry duck): ground- and excited-state redox potentials, with **PhotoTool**.
+
+The hub page (orange TrEDBox logo) leads to all four. ReDBox lives under `docs/photoredbox/` (the folder keeps its
+old name so existing links and installed apps keep working); the repository and site address keep the TrEnDB name.
+
+## TrEnDB
 
 A curated database of triplet energies for energy-transfer (EnT) donors and acceptors.
 Every entry records the value, how it was determined (experiment or computation, and which),
@@ -24,7 +35,7 @@ Site: https://nuniwo-source.github.io/TrEnDB/
   ("Search database"), and a product can start from a copy of the chosen reactants ("Copy from reactants"), so atoms
   that end up in the product need not be redrawn. Each reaction can carry a description of at most 50 words. Curators can edit or delete single reactions
   before approving, and the public card shows them only when "Reactions it was employed in" is clicked.
-- **Home and PlotEnT.** The home page is public and leads to TrEnDB, PlotEnT, PhotoreDBox and PhotoTool, with the
+- **Home and PlotEnT.** The home page is public and leads to TrEnDB, PlotEnT, ReDBox and PhotoTool, with the
   sign-in below it (a card picked before signing in opens once signed in). PlotEnT is a set of plots and
   calculators that run in the browser on the database values: a photocatalyst finder (donors on one triplet-energy
   axis around a substrate, with Sandros-predicted relative rates), a Sandros fit that extrapolates an acceptor's E_T
@@ -69,7 +80,7 @@ method fully specified, DOI resolves, agreement with existing entries). It does 
 | `docs/assets/score.js` | The scoring rules and the reaction checks (shared by browser and server) |
 | `docs/assets/plotent.js` | PlotEnT: the plotting tools, fits and their references |
 | `docs/assets/reactions.js` | The reaction sketcher, the reaction drawings and the curator's per-reaction edit/delete |
-| `docs/photoredbox/` | PhotoreDBox, the sister site for redox potentials (see below) |
+| `docs/photoredbox/` | ReDBox, the sister site for redox potentials (see below) |
 | `supabase/schema.sql` | Database tables, access rules and the public view |
 | `supabase/seed.sql` | First batch of literature entries, imported as pending |
 | `docs/batches/` | Literature batches (JSON). A curator imports new ones into the queue from the review page |
@@ -183,14 +194,14 @@ skips every network request. What stays manual: check the report, commit and pus
 Requirements: Poppler (`pdftotext`) or PyMuPDF; Tesseract for scanned pages; RDKit recommended.
 `trendb-extract` remains available for single files and fine control (`trendb-extract extract --help`).
 
-## PhotoreDBox
+## ReDBox
 
 A second site in the same repository, at `…/photoredbox/` (`docs/photoredbox/index.html`, review page
 `docs/photoredbox/admin.html`), for **ground- and excited-state redox potentials** of photocatalysts and substrates.
 It uses the same Supabase project, the same curators and the same shared login as TrEnDB, and the same rules: one
 row per reported value with its DOI, the live score, two-curator approval, readers' corrections. Its data are the
 table `redox_entries`. Both sites start from one **common home** (the home of TrEnDB, `docs/index.html#home`):
-TrEnDB and PlotEnT on the first row, PhotoreDBox and PhotoTool on the second; "Home" on PhotoreDBox leads back to it.
+TrEnDB and PlotEnT on the first row, ReDBox and PhotoTool on the second; "Home" on ReDBox leads back to it.
 
 - **Potentials.** Each row is a reduction or oxidation potential of the ground state or of an excited state (S1, T1;
   E* measured directly or estimated as E ± E0,0, with the E0,0 used), kept as reported against its reference
@@ -199,7 +210,7 @@ TrEnDB and PlotEnT on the first row, PhotoreDBox and PhotoTool on the second; "H
 - **Reference scale.** Like the triplet-energy scale of TrEnDB, the potential scale (−3.5 to +3 V) carries
   landmarks, all vs SCE: Li+/Li −3.28 V (−3.04 V vs SHE), [Ru(bpy)3]2+/+ −1.33 V, SCE 0 and [Ru(bpy)3]3+/2+ +1.29 V
   ([Ru(bpy)3] values from Prier, Rankic, MacMillan, Chem. Rev. 2013, doi:10.1021/cr300503r, Table 1).
-- **PhotoTool.** The tools of PhotoreDBox (`photoredbox/#tools`): a redox map of the photocatalysts, a reactivity advisor (from a photocatalyst, the reactions and
+- **PhotoTool.** The tools of ReDBox (`photoredbox/#tools`): a redox map of the photocatalysts, a reactivity advisor (from a photocatalyst, the reactions and
   substrates its full cycle can drive; from a reaction or substrate, the photocatalysts ranked by both quenching
   pathways), an excited-state potential calculator (E0,0 from spectra, wavelengths or the molecule's triplet energy;
   quenching ΔG with the Rehm–Weller term) and photon and energy units.
@@ -207,7 +218,7 @@ TrEnDB and PlotEnT on the first row, PhotoreDBox and PhotoTool on the second; "H
 | Path | What it is |
 | --- | --- |
 | `docs/photoredbox/` | The pages: public site, review page, web-app manifest (same icon as TrEnDB for now) |
-| `docs/assets/prx-app.js` | The page controller of the public PhotoreDBox site |
+| `docs/assets/prx-app.js` | The page controller of the public ReDBox site |
 | `docs/assets/redox.js` | PhotoTool: redox map, reactivity advisor, excited-state potentials, units |
 | `docs/assets/redox-reactions.js` | The advisor's library of reaction types (potentials vs SCE, sources by DOI) |
 | `docs/assets/site-redox.js` | Makes the review page (`admin.js`, the same page as TrEnDB's) work on `redox_entries`: two-curator approval, batch upload, corrections |
@@ -227,7 +238,7 @@ python tools/import_redoxdb.py /path/to/RedoxDB -o extracted/redoxdb-batch.json
 
 writes one pending row per RedoxDB measurement (E0,0 values go onto the excited-state rows that use them) and puts
 values without a DOI, a structure or an assigned excited state in `extracted/needs_review_redox.json`. Upload the batch
-on the PhotoreDBox review page (`photoredbox/admin.html`); uploading it again adds nothing. Two curators then approve the rows, which can be
+on the ReDBox review page (`photoredbox/admin.html`); uploading it again adds nothing. Two curators then approve the rows, which can be
 filtered by source and by verification level.
 
 ## Development
@@ -235,7 +246,7 @@ filtered by source and by verification level.
 ```
 pytest                             # Python extraction pipeline
 node tools/test-score.mjs          # scoring rules (triplet energies and redox potentials)
-node tools/test-redox.mjs          # PhotoreDBox tools: cycles, excited-state potentials, units, scale landmarks, reaction library
+node tools/test-redox.mjs          # ReDBox tools: cycles, excited-state potentials, units, scale landmarks, reaction library
 node tools/build-function.mjs      # regenerate the server function after editing score.js or the template
 node tools/check-links.mjs         # published data carries DOIs only
 ```

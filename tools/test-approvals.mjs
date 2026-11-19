@@ -289,7 +289,7 @@ assert.ok(adminJs.includes("adminRevokeApproval"));
 assert.ok(adminJs.includes("adminApproveSuggestion"));
 assert.ok(adminJs.includes("adminRevokeSuggestionApproval"));
 
-// 9. PhotoreDBox: the same review page on redox_entries
+// 9. ReDBox: the same review page on redox_entries
 {
   fetchCalls.length = 0;
   await Ent.api.adminApprove("rx-1", null, "redox_entries");

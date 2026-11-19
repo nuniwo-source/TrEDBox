@@ -1,4 +1,4 @@
-/* PhotoreDBox public page: browse approved redox potentials, search, PhotoTool, submit, and the
+/* ReDBox public page: browse approved redox potentials, search, PhotoTool, submit, and the
    curator sign-in bridge. Same backend, login and rules as TrEnDB (app.js); the data are the rows
    of public_redox. Triplet energies are read only to offer E0,0 of a triplet. */
 (function () {
@@ -156,7 +156,7 @@
       var card = Ent.moleculeCard(items, { onSuggest: openSuggest });
       nodes.push(card);
       var h = card.querySelector("h2");
-      document.title = (h ? h.textContent + " · " : "") + "PhotoreDBox";
+      document.title = (h ? h.textContent + " · " : "") + "ReDBox";
     }
     host.replaceChildren.apply(host, nodes);
   }
@@ -398,7 +398,7 @@
   }
   function loginGate(err) {
     if (state.curatorModal) { gate("Curator sign-in", "Sign in with your curator email and password to unlock the admin shortcut.", true, err, true); return; }
-    gate("Sign in", "PhotoreDBox is in private preview. Sign in with the preview user name and password, or with your curator email and password.", true, err, false);
+    gate("Sign in", "ReDBox is in private preview. Sign in with the preview user name and password, or with your curator email and password.", true, err, false);
   }
   function cancelCuratorGate() { state.curatorModal = false; $("gate-pass").value = ""; $("gate").hidden = true; $("app-body").hidden = false; syncAuthUi(); }
   function lock(msg) {
@@ -469,7 +469,7 @@
   }
 
   function boot() {
-    if (!api.configured) { gate("Private preview", "PhotoreDBox is not open yet.", false, "", false); return; }
+    if (!api.configured) { gate("Private preview", "ReDBox is not open yet.", false, "", false); return; }
     api.token().then(function (t) {
       if (!t) return false;
       return api.isAdmin().then(function (ok) { if (ok === true) return true; api.signOut(); return false; }, function () { return false; });

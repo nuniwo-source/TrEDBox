@@ -1,4 +1,4 @@
-/* PhotoTool: tools for photoredox catalysis built on the redox potentials of PhotoreDBox.
+/* PhotoTool: tools for photoredox catalysis built on the redox potentials of ReDBox.
    Tools: map (redox map of the photocatalysts), advisor (reactivity advisor), estar (excited-state
    potentials, E0,0, quenching ΔG), units (photon energy, ΔG from ΔE, photon flux).
    Adapted from RedoxDB (alebusso12), used with permission. Potentials are handled against SCE
@@ -311,7 +311,7 @@
     rootEl.replaceChildren(back, h, lede, refBar(rerender), body);
     return body;
   }
-  var BASE = "#tools";   /* the section's address: set by render (PhotoreDBox: "#tools") */
+  var BASE = "#tools";   /* the section's address: set by render (ReDBox: "#tools") */
   function save(tool, st) { K().saveAt(BASE + "/", tool, st); }
   function field(label, input, hint) {
     var l = el("label", "field"), sp = el("span"); Ent.setText(sp, label); l.appendChild(sp); l.appendChild(input);

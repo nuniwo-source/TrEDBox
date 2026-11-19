@@ -5,14 +5,18 @@
    - Curator pages and their scripts are saved on first use, not pre-loaded for every visitor.
    - Everything else (the database, doi.org, PubChem, Crossref, sign-in) is never touched or stored here. */
 "use strict";
-var CACHE = "trendb-v5";
+var CACHE = "trendb-v6";
 var CORE = [
   "./", "index.html", "manifest.webmanifest",
   "assets/style.css", "assets/config.js", "assets/score.js", "assets/chem-render.js", "assets/common.js",
   "assets/reactions.js", "assets/plotent.js", "assets/redox-reactions.js", "assets/redox.js", "assets/app.js",
   "photoredbox/", "photoredbox/index.html", "photoredbox/manifest.webmanifest", "assets/prx-app.js",
   "assets/logo.svg", "assets/favicon.svg", "assets/app-icon.svg", "assets/apple-touch-icon.png",
-  "assets/icon-192.png", "assets/icon-512.png", "assets/icon-maskable-192.png", "assets/icon-maskable-512.png"
+  "assets/icon-192.png", "assets/icon-512.png", "assets/icon-maskable-192.png", "assets/icon-maskable-512.png",
+  "assets/tredbox-logo.svg", "assets/tredbox-favicon.svg", "assets/tredbox-icon-192.png", "assets/tredbox-icon-512.png",
+  "assets/tredbox-icon-maskable-192.png", "assets/tredbox-icon-maskable-512.png", "assets/tredbox-apple-touch-icon.png",
+  "assets/redbox-logo.svg", "assets/redbox-favicon.svg", "assets/redbox-icon-192.png", "assets/redbox-icon-512.png",
+  "assets/redbox-icon-maskable-192.png", "assets/redbox-icon-maskable-512.png", "assets/redbox-apple-touch-icon.png"
 ];
 var CDN = ["cdn.jsdelivr.net", "unpkg.com", "fonts.googleapis.com", "fonts.gstatic.com"];
 
@@ -47,7 +51,7 @@ function fetchAndSave(req) {
   }).catch(function () {
     return caches.match(req, { ignoreSearch: true }).then(function (hit) {
       if (hit) return hit;
-      /* each site falls back on its own page: PhotoreDBox lives in photoredbox/ */
+      /* each site falls back on its own page: ReDBox lives in photoredbox/ */
       if (req.mode === "navigate") return caches.match(/\/photoredbox\//.test(new URL(req.url).pathname) ? "photoredbox/index.html" : "index.html");
       return Response.error();
     });

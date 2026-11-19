@@ -1,5 +1,5 @@
 """Convert a local clone of RedoxDB (github.com/alebusso12/RedoxDB, used with permission) into a
-batch of pending redox_entries rows for the PhotoreDBox review page (photoredbox/admin.html).
+batch of pending redox_entries rows for the ReDBox review page (photoredbox/admin.html).
 
     python tools/import_redoxdb.py /path/to/RedoxDB -o extracted/redoxdb-batch.json
 

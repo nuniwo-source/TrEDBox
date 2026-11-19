@@ -191,7 +191,7 @@ def convert(repo: str | Path) -> dict[str, Any]:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Convert a local RedoxDB clone into a TrEnDB redox batch (pending rows).")
     ap.add_argument("redoxdb", help="Path to a clone of github.com/alebusso12/RedoxDB")
-    ap.add_argument("-o", "--out", default="extracted/redoxdb-batch.json", help="Batch to upload on the PhotoreDBox review page (photoredbox/admin.html).")
+    ap.add_argument("-o", "--out", default="extracted/redoxdb-batch.json", help="Batch to upload on the ReDBox review page (photoredbox/admin.html).")
     ap.add_argument("--review", default="extracted/needs_review_redox.json", help="Values that need a curator first.")
     args = ap.parse_args(argv)
     res = convert(args.redoxdb)

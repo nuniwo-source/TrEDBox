@@ -151,8 +151,32 @@
     version: function () { return state.dataVer; },
     searchDb: function (q) { go("#db"); $("q").value = q; state.search.q = q; render(); }
   };
+  /* ---------- brand: TrEDBox on the hub, TrEnDB in the database and PlotEnT ---------- */
+  var BRANDS = {
+    hub: { logo: "assets/tredbox-logo.svg", icon: "assets/tredbox-favicon.svg", name: 'Tr<span class="en">ED</span>Box', tag: "Triplet Energy and Redox Potential Database",
+      lede: "",   /* the hub says it in its own heading */
+      title: "TrEDBox · Triplet Energy and Redox Potential Database", theme: "#3B1C06" },
+    trendb: { logo: "assets/logo.svg", icon: "assets/favicon.svg", name: 'Tr<span class="en">En</span>DB', tag: "Triplet Energy Database",
+      lede: "Triplet energies of energy-transfer donors and acceptors, each with how it was determined and where it was published. Entries are reviewed by a curator before they appear.",
+      title: "TrEnDB · Triplet Energy Database", theme: "#12301F" }
+  };
+  var brandNow = "";
+  function setBrand(which) {
+    var b = BRANDS[which];
+    document.body.classList.toggle("tredbox", which === "hub");
+    if (which === "hub") document.title = b.title;
+    else if (state.section === "plot") document.title = "PlotEnT · TrEnDB";
+    if (brandNow === which) return;
+    brandNow = which;
+    $("brand-logo").src = b.logo; $("brand-name").innerHTML = b.name;   /* fixed markup from BRANDS above */
+    $("brand-tag").textContent = b.tag; $("brand-lede").textContent = b.lede; $("brand-lede").hidden = !b.lede;
+    $("favicon").href = b.icon;
+    var tc = document.querySelector('meta[name="theme-color"]'); if (tc) tc.content = b.theme;
+  }
+
   function renderSections() {
     var sec = state.section;
+    setBrand(sec === "home" ? "hub" : "trendb");
     Array.prototype.forEach.call(document.querySelectorAll("#sections a"), function (a) {
       if (a.getAttribute("data-sec") === sec) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
@@ -218,7 +242,7 @@
   }
 
   /* ---------- a molecule's own page: the full card with every value it has in the database ---------- */
-  var BASE_TITLE = document.title;
+  var BASE_TITLE = "TrEnDB · Triplet Energy Database";
   function renderMolPage() {
     var host = $("mol-view"), back = el("button", "btn small mol-back", "← Back to database");
     back.type = "button";
@@ -515,6 +539,7 @@
     state.curatorModal = !!isCuratorModal;
     $("app-body").hidden = true; $("gate").hidden = false;
     $("home-view").hidden = !!isCuratorModal;   /* the public landing: the hub sits above the sign-in */
+    setBrand(isCuratorModal && state.section !== "home" ? "trendb" : "hub");
     $("gate-title").textContent = title; $("gate-text").textContent = text; $("gate-fields").hidden = !withForm;
     $("gate-user-text").textContent = isCuratorModal ? "Curator email" : "User or curator email";
     $("gate-cancel").hidden = !isCuratorModal;

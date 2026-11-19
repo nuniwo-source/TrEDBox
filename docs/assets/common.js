@@ -328,7 +328,7 @@
   Ent.bindSearch = function (st, rerender) {
     var t = null;
     var render = function () { if (st.pager) st.pager.shown = 0; rerender(); };
-    /* each page has its own set of filters (TrEnDB: role, E_T range; PhotoreDBox: property, potential window, reference) */
+    /* each page has its own set of filters (TrEnDB: role, E_T range; ReDBox: property, potential window, reference) */
     function on(id, ev, fn) { var n = $(id); if (n) n.addEventListener(ev, fn); }
     on("f-prop", "change", function (e) { st.prop = e.target.value; render(); });
     on("f-category", "change", function (e) { st.category = e.target.value; render(); });
@@ -769,7 +769,7 @@
     return null;
   }
 
-  /* ---------- redox rows on the review card (PhotoreDBox) ---------- */
+  /* ---------- redox rows on the review card (ReDBox) ---------- */
   function isApprox(d) { return /approximate/i.test(d.verify_note || ""); }
   function toVerify(d) { return d.verify_level === "abstract" || d.verify_level === "secondaria" || isApprox(d); }
   /* "E*_red −1.73 V vs SCE" (against the chosen reference when it converts, else as reported) */
@@ -1802,7 +1802,7 @@
     ["structure_note", "Structure note", "text"], ["verify_note", "Verification note", "text"]
   ];
   var EDIT_MAP = {}; EDIT.forEach(function (f) { EDIT_MAP[f[0]] = f; });
-  /* the same editor for a redox potential (PhotoreDBox) */
+  /* the same editor for a redox potential (ReDBox) */
   var REDOX_EDIT = [
     ["name", "IUPAC name", "text"], ["commercial_name", "Commercial name (optional)", "text"], ["cas", "CAS number", "text"], ["cls", "Class", "text"],
     ["category", "Photocatalyst or substrate", "select", [["", "Not stated"], ["photocatalyst", "Photocatalyst"], ["substrate", "Substrate"]]],

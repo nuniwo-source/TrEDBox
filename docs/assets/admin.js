@@ -1,4 +1,4 @@
-/* Review page of TrEnDB (triplet energies, table entries) and of PhotoreDBox (redox potentials,
+/* Review page of TrEnDB (triplet energies, table entries) and of ReDBox (redox potentials,
    table redox_entries): curator sign-in, triage queue, batch/PubChem tools, editor & undoable review.
    The page says which database it reviews with window.ENT_SITE = {kind: "redox"} (assets/site-redox.js,
    loaded before this file); without it the page reviews triplet energies. Only what is about triplet
@@ -119,7 +119,7 @@
     enrich: function (d) { return !!enrichIssueDocIds()[d.id]; }
   };
   if (RX) {
-    /* PhotoreDBox: what a redox curator sorts by instead of donor/acceptor */
+    /* ReDBox: what a redox curator sorts by instead of donor/acceptor */
     TRIAGE_PRED.excited = function (d) { return !!d.state && d.state !== "S0"; };
     TRIAGE_PRED.noconv = function (d) { return d.e_sce == null || d.e_sce === ""; };
     TRIAGE_PRED.redoxdb = function (d) { return String(d.import_key || "").indexOf("redoxdb:") === 0; };
@@ -193,7 +193,7 @@
     var fresh = Ent.newSearch(state.search.defSort);
     ["q", "cas", "origin", "role", "cls", "etmin", "etmax", "prop", "category", "emin", "emax", "sort"].forEach(function (k) { state.search[k] = fresh[k]; });
     state.search.ss.smiles = ""; state.search.ss.mode = fresh.ss.mode; state.search.ss.thr = fresh.ss.thr;
-    /* each site has its own filters (TrEnDB: role, E_T range; PhotoreDBox: potential, category, window) */
+    /* each site has its own filters (TrEnDB: role, E_T range; ReDBox: potential, category, window) */
     ["q", "f-cas", "f-origin", "f-role", "f-cls", "f-etmin", "f-etmax", "f-prop", "f-category", "f-emin", "f-emax", "ss-smiles"].forEach(function (id) { var n = $(id); if (n) n.value = ""; });
     $("f-sort").value = state.search.sort; $("ss-mode").value = state.search.ss.mode;
     $("ss-thr").value = String(state.search.ss.thr); $("ss-thr").hidden = true;

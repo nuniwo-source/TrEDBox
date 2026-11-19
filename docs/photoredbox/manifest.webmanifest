@@ -1,6 +1,6 @@
 {
-  "name": "PhotoreDBox · Photoredox Potential Database",
-  "short_name": "PhotoreDBox",
+  "name": "ReDBox · Redox Potential Database",
+  "short_name": "ReDBox",
   "description": "Curated ground- and excited-state redox potentials, with tools for photoredox catalysis.",
   "id": "./",
   "start_url": "./#db",
@@ -8,17 +8,17 @@
   "display": "standalone",
   "orientation": "any",
   "background_color": "#f6f7f8",
-  "theme_color": "#12301F",
+  "theme_color": "#2E1065",
   "lang": "en",
   "categories": ["education", "science", "productivity"],
   "icons": [
-    { "src": "../assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "../assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "../assets/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "../assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "../assets/redbox-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "../assets/redbox-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "../assets/redbox-icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "../assets/redbox-icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
-    { "name": "Database", "short_name": "Database", "url": "./#db", "icons": [{ "src": "../assets/icon-192.png", "sizes": "192x192" }] },
-    { "name": "PhotoTool", "short_name": "PhotoTool", "url": "./#tools", "icons": [{ "src": "../assets/icon-192.png", "sizes": "192x192" }] }
+    { "name": "Database", "short_name": "Database", "url": "./#db", "icons": [{ "src": "../assets/redbox-icon-192.png", "sizes": "192x192" }] },
+    { "name": "PhotoTool", "short_name": "PhotoTool", "url": "./#tools", "icons": [{ "src": "../assets/redbox-icon-192.png", "sizes": "192x192" }] }
   ]
 }

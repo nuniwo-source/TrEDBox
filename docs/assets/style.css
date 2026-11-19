@@ -763,6 +763,31 @@ button.chip.slide-chip:hover{border-color:var(--bad);color:var(--bad)}
 .scale.scale-v .mark{top:15px}
 .scale.scale-v .lab{top:0}
 .scale.scale-v .end{top:32px}
-/* the common home: TrEnDB · PlotEnT on the first row, PhotoreDBox · PhotoTool on the second */
+/* the common home: TrEnDB · PlotEnT on the first row, ReDBox · PhotoTool on the second */
 .home-grid.home-grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:700px){.home-grid.home-grid-2{grid-template-columns:1fr}}
+
+/* ---------- the three brands: TrEDBox (hub, orange), TrEnDB (green, the default above), ReDBox (violet) ---------- */
+body.tredbox{--accent:#b4500e;--accent-fg:#ffffff;--accent-soft:#fdebd8;--brand-en:#d9690b}
+body.redbox{--accent:#6d28d9;--accent-fg:#ffffff;--accent-soft:#ede7fb;--brand-en:#7c3aed}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) body.tredbox{--accent:#fdba74;--accent-fg:#2b1404;--accent-soft:#3a2410;--brand-en:#fdba74}
+  :root:not([data-theme="light"]) body.redbox{--accent:#c4b5fd;--accent-fg:#1e0b3d;--accent-soft:#2a1b47;--brand-en:#c4b5fd}
+}
+:root[data-theme="dark"] body.tredbox{--accent:#fdba74;--accent-fg:#2b1404;--accent-soft:#3a2410;--brand-en:#fdba74}
+:root[data-theme="dark"] body.redbox{--accent:#c4b5fd;--accent-fg:#1e0b3d;--accent-soft:#2a1b47;--brand-en:#c4b5fd}
+/* on the hub each card keeps the colour of its own site */
+.home .trendb-name .en{color:#22a06b}
+.home .redbox-name .en{color:#7c3aed}
+.home-icon.redbox{background:#ede7fb}
+.home-icon.db{background:#ddf2e5}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .home .trendb-name .en{color:#5fd39a}
+  :root:not([data-theme="light"]) .home .redbox-name .en{color:#c4b5fd}
+  :root:not([data-theme="light"]) .home-icon.redbox{background:#2a1b47}
+}
+:root[data-theme="dark"] .home .trendb-name .en{color:#5fd39a}
+:root[data-theme="dark"] .home .redbox-name .en{color:#c4b5fd}
+:root[data-theme="dark"] .home-icon.redbox{background:#2a1b47}
+:root[data-theme="dark"] .home-icon.db{background:#1b3a2a}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .home-icon.db{background:#1b3a2a} }
