@@ -804,3 +804,19 @@ h1.brand:has(.db){font-weight:500}
 }
 :root[data-theme="dark"] .home .trendb-name .db{color:#5fd39a}
 :root[data-theme="dark"] .home .redbox-name .db{color:#c4b5fd}
+
+/* hub: each card's button and hover in the colour of the site it opens */
+.home-card.trendb-card .home-go{background:#146c43;color:#ffffff}
+.home-card.redbox-card .home-go{background:#6d28d9;color:#ffffff}
+.home-card.trendb-card:hover{border-color:#146c43}
+.home-card.redbox-card:hover{border-color:#6d28d9}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .home-card.trendb-card .home-go{background:#5fd39a;color:#0b1f14}
+  :root:not([data-theme="light"]) .home-card.redbox-card .home-go{background:#c4b5fd;color:#1e0b3d}
+  :root:not([data-theme="light"]) .home-card.trendb-card:hover{border-color:#5fd39a}
+  :root:not([data-theme="light"]) .home-card.redbox-card:hover{border-color:#c4b5fd}
+}
+:root[data-theme="dark"] .home-card.trendb-card .home-go{background:#5fd39a;color:#0b1f14}
+:root[data-theme="dark"] .home-card.redbox-card .home-go{background:#c4b5fd;color:#1e0b3d}
+:root[data-theme="dark"] .home-card.trendb-card:hover{border-color:#5fd39a}
+:root[data-theme="dark"] .home-card.redbox-card:hover{border-color:#c4b5fd}
