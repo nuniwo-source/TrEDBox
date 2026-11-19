@@ -153,10 +153,10 @@
   };
   /* ---------- brand: TrEDBox on the hub, TrEnDB in the database and PlotEnT ---------- */
   var BRANDS = {
-    hub: { logo: "assets/tredbox-logo.svg", icon: "assets/tredbox-favicon.svg", name: 'Tr<span class="en">ED</span>Box', tag: "Triplet Energy and Redox Potential Database",
+    hub: { logo: "assets/tredbox-logo.svg", icon: "assets/tredbox-favicon.svg", name: 'TrE<span class="db">DB</span>ox', tag: "Triplet Energy and Redox Potential Database",
       lede: "",   /* the hub says it in its own heading */
       title: "TrEDBox · Triplet Energy and Redox Potential Database", theme: "#3B1C06" },
-    trendb: { logo: "assets/logo.svg", icon: "assets/favicon.svg", name: 'Tr<span class="en">En</span>DB', tag: "Triplet Energy Database",
+    trendb: { logo: "assets/logo.svg", icon: "assets/favicon.svg", name: 'TrEn<span class="db">DB</span>', tag: "Triplet Energy Database",
       lede: "Triplet energies of energy-transfer donors and acceptors, each with how it was determined and where it was published. Entries are reviewed by a curator before they appear.",
       title: "TrEnDB · Triplet Energy Database", theme: "#12301F" }
   };

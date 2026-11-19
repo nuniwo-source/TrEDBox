@@ -791,3 +791,16 @@ body.redbox{--accent:#6d28d9;--accent-fg:#ffffff;--accent-soft:#ede7fb;--brand-e
 :root[data-theme="dark"] .home-icon.redbox{background:#2a1b47}
 :root[data-theme="dark"] .home-icon.db{background:#1b3a2a}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .home-icon.db{background:#1b3a2a} }
+
+/* wordmarks: only "DB" is bold, in the colour of its site (TrEn DB green, TrE DB ox orange, Re DB ox violet) */
+h1.brand:has(.db){font-weight:500}
+.home-card-title .h:has(.db){font-weight:500}
+.db{font-weight:700;color:var(--brand-en)}
+.home .trendb-name .db{color:#22a06b}
+.home .redbox-name .db{color:#7c3aed}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .home .trendb-name .db{color:#5fd39a}
+  :root:not([data-theme="light"]) .home .redbox-name .db{color:#c4b5fd}
+}
+:root[data-theme="dark"] .home .trendb-name .db{color:#5fd39a}
+:root[data-theme="dark"] .home .redbox-name .db{color:#c4b5fd}
