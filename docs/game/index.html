@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>TrEDBoxle</title>
+<meta name="description" content="TrEDBoxle, the Triplet Energy &amp; Redox Potential Daily Puzzle: guess triplet energies and redox potentials from TrEDBox. Open to everyone every day; archive and free play with the TrEDBox sign-in.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="game.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3CclipPath id='b'%3E%3Cpath d='M50 62V150a50 16 0 0 0 100 0V62Z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23b)'%3E%3Crect x='40' y='50' width='60' height='130' fill='%2322a06b'/%3E%3Crect x='100' y='50' width='60' height='130' fill='%237c3aed'/%3E%3C/g%3E%3Cpath d='M50 62V150a50 16 0 0 0 100 0V62' fill='none' stroke='%234A2508' stroke-width='8'/%3E%3Cellipse cx='100' cy='62' rx='50' ry='16' fill='%23F28C28' stroke='%234A2508' stroke-width='8'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#F28C28">
+<script src="../assets/config.js"></script>
+<script src="game-config.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <a href="#/daily" class="logo" aria-hidden="true" tabindex="-1">
+        <svg viewBox="0 0 200 200" width="48" height="48">
+          <clipPath id="body"><path d="M50 62 V150 a50 16 0 0 0 100 0 V62 Z"/></clipPath>
+          <g clip-path="url(#body)"><rect x="40" y="50" width="60" height="130" fill="var(--te)"/><rect x="100" y="50" width="60" height="130" fill="var(--rx)"/></g>
+          <path d="M50 62 V150 a50 16 0 0 0 100 0 V62" fill="none" stroke="var(--logo-ink)" stroke-width="6"/>
+          <path d="M50 92 a50 16 0 0 0 100 0 M50 122 a50 16 0 0 0 100 0" fill="none" stroke="var(--logo-ink)" stroke-width="4" opacity=".3"/>
+          <ellipse cx="100" cy="62" rx="50" ry="16" fill="var(--hub)" stroke="var(--logo-ink)" stroke-width="6"/>
+        </svg>
+      </a>
+      <div>
+        <h1 id="title"><span class="wordmark" aria-label="TrEDBoxle"><span class="te">TrE</span><span class="rx">DBox</span><span class="hub">le</span></span> <span class="num" id="title-num"></span></h1>
+        <p class="fullname"><span class="te">Triplet Energy</span> &amp; <span class="rx">Redox Potential</span> <span class="hub">Daily Puzzle</span></p>
+        <p id="subtitle" class="subtitle"></p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <a class="icon-btn hub-link" href="../" title="TrEDBox home">TrEDBox</a>
+      <button class="icon-btn" id="acct-top" aria-label="TrEDBox sign-in" title="Sign in" hidden>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+        <span class="acct-dot" hidden></span>
+      </button>
+      <button class="icon-btn" id="stats-top" aria-label="Statistics" title="Statistics">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>
+      </button>
+      <button class="icon-btn" id="menu-btn" aria-label="Menu" title="Menu">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav id="drawer" class="drawer" hidden>
+        <div id="acct-line" class="acct-line" hidden></div>
+        <button id="acct-btn" hidden>👤 Sign in to TrEDBox</button>
+        <a href="#/daily">🎯 Today's puzzle</a>
+        <a href="#/archive">🗂 Archive</a>
+        <a href="#/free">♾ Free play</a>
+        <button id="help-btn">❓ How to play</button>
+        <button id="stats-btn">📊 Statistics</button>
+        <button id="theme-btn">Theme: Auto</button>
+        <a href="../#db">🟢 TrEnDB database</a>
+        <a href="../photoredbox/index.html#db">🟣 ReDBox database</a>
+        <a href="../">🏠 TrEDBox home</a>
+      </nav>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Sections">
+    <a href="#/daily" data-tab="daily">Daily</a>
+    <a href="#/archive" data-tab="archive">Archive<span class="lock" title="TrEDBox sign-in">🔒</span></a>
+    <a href="#/free" data-tab="free">Free play<span class="lock" title="TrEDBox sign-in">🔒</span></a>
+  </nav>
+
+  <main id="main"></main>
+
+  <footer class="foot">
+    <span>Data: <span id="datasrc">…</span></span>
+    <span>Verified data from <a href="../">TrEDBox</a> · E<sub>T</sub> in kcal/mol · potentials in V vs SCE</span>
+  </footer>
+</div>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head"><h3 id="modal-title"></h3><button class="icon-btn" id="modal-close" aria-label="Close">✕</button></div>
+    <div id="modal-body" class="modal-body"></div>
+  </div>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/openchemlib@8.19.0/dist/openchemlib-full.js" id="ocl-script" async></script>
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="access.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

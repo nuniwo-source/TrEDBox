@@ -81,6 +81,7 @@ method fully specified, DOI resolves, agreement with existing entries). It does 
 | `docs/assets/plotent.js` | PlotEnT: the plotting tools, fits and their references |
 | `docs/assets/reactions.js` | The reaction sketcher, the reaction drawings and the curator's per-reaction edit/delete |
 | `docs/photoredbox/` | ReDBox, the sister site for redox potentials (see below) |
+| `docs/game/` | TrEDBoxle, the daily puzzle on verified values (see below) |
 | `supabase/schema.sql` | Database tables, access rules and the public view |
 | `supabase/seed.sql` | First batch of literature entries, imported as pending |
 | `docs/batches/` | Literature batches (JSON). A curator imports new ones into the queue from the review page |
@@ -240,6 +241,24 @@ writes one pending row per RedoxDB measurement (E0,0 values go onto the excited-
 values without a DOI, a structure or an assigned excited state in `extracted/needs_review_redox.json`. Upload the batch
 on the ReDBox review page (`photoredbox/admin.html`); uploading it again adds nothing. Two curators then approve the rows, which can be
 filtered by source and by verification level.
+
+## TrEDBoxle (daily puzzle)
+
+`docs/game/` is **TrEDBoxle**, the Triplet Energy & Redox Potential Daily Puzzle: guess triplet energies and
+ground- or excited-state potentials, pick the right sensitizer, rank molecules, with hints and a shareable result.
+It is linked from the hub's first card.
+
+- **Today's puzzle is open to everyone**, with no sign-in. It reads `public.game_molecules()`
+  (end of `supabase/schema.sql`): **approved values only**, with just the columns the game shows
+  (structure, class, role, value, origin, score, citation/DOI, approval date). It is the only thing readable
+  without the site login; tables, views, methods, conditions, quotes and pending entries stay private.
+  Run the updated `schema.sql` once to create it. Until then the game uses a small built-in sample (`docs/game/data.js`).
+- **Archive and free play need the TrEDBox sign-in**: the same preview user or curator email as the database,
+  stored under the same keys, so signing in on the game opens the database and vice versa.
+  This lock is on the page: the verified values themselves are public through the feed.
+- New approvals appear in the game the next time it is opened. Each daily puzzle only uses molecules approved
+  on or before its date, so the archive does not change. Progress and stats stay in each player's browser.
+- Settings (launch date, rotation of formats, which sections need sign-in) are in `docs/game/game-config.js`.
 
 ## Development
 

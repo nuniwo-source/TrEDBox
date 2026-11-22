@@ -1090,3 +1090,39 @@ $$;
 revoke all on public.public_redox from anon, authenticated;
 revoke all on function public.list_redox(text, text) from public, anon, authenticated;
 grant execute on function public.list_redox(text, text) to anon, authenticated, service_role;
+
+-- ---------------------------------------------------------------------------
+-- TrEDBoxle (docs/game/): the daily puzzle is open to everyone, so it reads a
+-- small public feed instead of list_entries() / list_redox().
+-- game_molecules() returns ONLY approved values and only the columns the game
+-- shows (structure, class, role, value, origin, score, citation/DOI, approval
+-- date). It needs no site login. Everything else stays behind check_access():
+-- tables, views, methods, conditions, quotes, pending and rejected entries.
+-- approved_at lets each daily puzzle use only molecules approved by its date,
+-- so archived puzzles do not change.
+-- To close the feed: revoke execute on function public.game_molecules() from anon, authenticated;
+-- ---------------------------------------------------------------------------
+drop function if exists public.game_molecules();
+create function public.game_molecules()
+returns table (
+  feed text, name text, commercial_name text, cas text, smiles text, idcode text, cls text,
+  role text, category text, origin text, value numeric, unc numeric,
+  redox_kind text, state text, e00_ev numeric, score int, citation text, doi text, approved_at timestamptz
+)
+language sql stable security definer
+set search_path = ''
+as $$
+  select 'et', e.name, e.commercial_name, e.cas, e.smiles, e.idcode, e.cls, e.role, null::text,
+         e.origin, e.et_kcal, e.et_unc, null::text, null::text, null::numeric, e.score,
+         e.citation, e.doi, coalesce(e.decided_at, e.created_at)
+  from public.entries e
+  where e.status = 'approved'
+  union all
+  select 'redox', r.name, r.commercial_name, r.cas, r.smiles, r.idcode, r.cls, null::text, r.category,
+         r.origin, r.e_sce, r.e_unc, r.kind, r.state, r.e00_ev, r.score,
+         r.citation, r.doi, coalesce(r.decided_at, r.created_at)
+  from public.redox_entries r
+  where r.status = 'approved' and r.e_sce is not null;
+$$;
+revoke all on function public.game_molecules() from public, anon, authenticated;
+grant execute on function public.game_molecules() to anon, authenticated, service_role;

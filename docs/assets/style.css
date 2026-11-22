@@ -820,3 +820,13 @@ h1.brand:has(.db){font-weight:500}
 :root[data-theme="dark"] .home-card.redbox-card .home-go{background:#c4b5fd;color:#1e0b3d}
 :root[data-theme="dark"] .home-card.trendb-card:hover{border-color:#5fd39a}
 :root[data-theme="dark"] .home-card.redbox-card:hover{border-color:#c4b5fd}
+
+/* TrEDBoxle card on the hub: the daily puzzle, open without sign-in */
+.home-card.game-card{margin-bottom:18px;border-color:#F28C28;background:linear-gradient(100deg,rgba(34,160,107,.08),rgba(139,92,246,.08))}
+.home-card.game-card:hover{border-color:#d9690b}
+.game-card .game-name{font-weight:700}
+.game-card .te{color:#22a06b}.game-card .rx{color:#7c3aed}.game-card .le{color:#d9690b}
+.home-card.game-card .home-go{background:#b4500e;color:#ffffff}
+.home-icon.game{background:#fdebd8}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .game-card .te{color:#5fd39a} :root:not([data-theme="light"]) .game-card .rx{color:#c4b5fd} :root:not([data-theme="light"]) .game-card .le{color:#fdba74} :root:not([data-theme="light"]) .home-card.game-card .home-go{background:#fdba74;color:#2b1404} :root:not([data-theme="light"]) .home-icon.game{background:#3a2410} }
+:root[data-theme="dark"] .game-card .te{color:#5fd39a} :root[data-theme="dark"] .game-card .rx{color:#c4b5fd} :root[data-theme="dark"] .game-card .le{color:#fdba74} :root[data-theme="dark"] .home-card.game-card .home-go{background:#fdba74;color:#2b1404} :root[data-theme="dark"] .home-icon.game{background:#3a2410}
