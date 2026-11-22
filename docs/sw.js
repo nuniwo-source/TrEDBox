@@ -11,7 +11,7 @@ var CORE = [
   "assets/style.css", "assets/config.js", "assets/score.js", "assets/chem-render.js", "assets/common.js",
   "assets/reactions.js", "assets/plotent.js", "assets/redox-reactions.js", "assets/redox.js", "assets/app.js",
   "photoredbox/", "photoredbox/index.html", "photoredbox/manifest.webmanifest", "assets/prx-app.js",
-  "game/", "game/index.html", "game/game.css", "game/game-config.js", "game/data.js", "game/engine.js", "game/access.js", "game/app.js",
+  "game/", "game/index.html", "game/game.css", "game/game-config.js", "game/data.js", "game/engine.js", "game/access.js", "game/theory.js", "game/app.js",
   "assets/logo.svg", "assets/favicon.svg", "assets/app-icon.svg", "assets/apple-touch-icon.png",
   "assets/icon-192.png", "assets/icon-512.png", "assets/icon-maskable-192.png", "assets/icon-maskable-512.png",
   "assets/tredbox-logo.svg", "assets/tredbox-favicon.svg", "assets/tredbox-icon-192.png", "assets/tredbox-icon-512.png",

@@ -81,7 +81,7 @@ method fully specified, DOI resolves, agreement with existing entries). It does 
 | `docs/assets/plotent.js` | PlotEnT: the plotting tools, fits and their references |
 | `docs/assets/reactions.js` | The reaction sketcher, the reaction drawings and the curator's per-reaction edit/delete |
 | `docs/photoredbox/` | ReDBox, the sister site for redox potentials (see below) |
-| `docs/game/` | TrEDBoxle, the daily puzzle on verified values (see below) |
+| `docs/game/` | TrEDBoxle: daily puzzle, archive, free play and theory quizzes (see below) |
 | `supabase/schema.sql` | Database tables, access rules and the public view |
 | `supabase/seed.sql` | First batch of literature entries, imported as pending |
 | `docs/batches/` | Literature batches (JSON). A curator imports new ones into the queue from the review page |
@@ -242,23 +242,28 @@ values without a DOI, a structure or an assigned excited state in `extracted/nee
 on the ReDBox review page (`photoredbox/admin.html`); uploading it again adds nothing. Two curators then approve the rows, which can be
 filtered by source and by verification level.
 
-## TrEDBoxle (daily puzzle)
+## TrEDBoxle (daily puzzle and quizzes)
 
-`docs/game/` is **TrEDBoxle**, the Triplet Energy & Redox Potential Daily Puzzle: guess triplet energies and
-ground- or excited-state potentials, pick the right sensitizer, rank molecules, with hints and a shareable result.
-It is linked from the hub's first card.
+`docs/game/` is **TrEDBoxle**, the Triplet Energy & Redox Potential Daily Puzzle, linked from the hub's first card.
+**Everything is open to everyone, with no sign-in**:
 
-- **Today's puzzle is open to everyone**, with no sign-in. It reads `public.game_molecules()`
-  (end of `supabase/schema.sql`): **approved values only**, with just the columns the game shows
-  (structure, class, role, value, origin, score, citation/DOI, approval date). It is the only thing readable
-  without the site login; tables, views, methods, conditions, quotes and pending entries stay private.
+- **Daily**: a new puzzle every day (guess E<sub>T</sub> or a potential, pick the right sensitizer, rank molecules…), with hints and a shareable result.
+- **Archive**: every past daily puzzle.
+- **Free play**: endless random questions on the verified values, in ten formats.
+- **Theory**: conceptual questions on energy transfer and photoredox catalysis (`docs/game/theory.js`), each with an
+  explanation and the review or paper it is based on (Prier/MacMillan, Romero/Nicewicz, Strieth-Kalthoff/Glorius,
+  Großkopf/Bach, Arias-Rotondo/McCusker, Buzzetti/Melchiorre, Dexter, Sandros, Rehm–Weller, Marcus…).
+  Every DOI was checked against Crossref. Add questions by appending to the list in that file.
+
+Data:
+- The game reads `public.game_molecules()` (end of `supabase/schema.sql`): **approved values only**, with just the
+  columns the game shows (structure, class, role, value, origin, score, citation/DOI, approval date). It is the only
+  thing readable without the site login; tables, views, methods, conditions, quotes and pending entries stay private.
   Run the updated `schema.sql` once to create it. Until then the game uses a small built-in sample (`docs/game/data.js`).
-- **Archive and free play need the TrEDBox sign-in**: the same preview user or curator email as the database,
-  stored under the same keys, so signing in on the game opens the database and vice versa.
-  This lock is on the page: the verified values themselves are public through the feed.
-- New approvals appear in the game the next time it is opened. Each daily puzzle only uses molecules approved
-  on or before its date, so the archive does not change. Progress and stats stay in each player's browser.
-- Settings (launch date, rotation of formats, which sections need sign-in) are in `docs/game/game-config.js`.
+- New approvals appear the next time the game is opened. Each daily puzzle only uses molecules approved on or before
+  its date, so the archive does not change. Progress and stats stay in each player's browser.
+- Settings are in `docs/game/game-config.js`. To put sections behind the TrEDBox sign-in again (same login as the
+  database), list them in `loginRequiredFor`, e.g. `["archive", "free", "theory"]`.
 
 ## Development
 

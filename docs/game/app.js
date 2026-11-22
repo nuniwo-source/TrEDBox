@@ -420,6 +420,57 @@
     next();
   }
 
+  // ------------------------------------------------------------------ theory (literature questions)
+  function viewTheory() {
+    setTab("theory");
+    setTitle("", "Theory · energy transfer and photoredox, from the literature");
+    const TH = window.TREDBOXLE_THEORY;
+    const ts = store.get("theory", { topic: "mix", answered: 0, correct: 0, streak: 0, best: 0, seen: [] });
+    const topics = [["mix", "Mixed"], ["ent", "Energy transfer"], ["prx", "Photoredox"]];
+    main().innerHTML = `
+      <div class="free-bar">
+        <div class="seg">${topics.map(([k, l]) => `<button data-th="${k}" class="${ts.topic === k ? "on" : ""}">${l}</button>`).join("")}</div>
+        <div class="scores"><span>Correct <b id="t-ok">${ts.correct}/${ts.answered}</b></span><span>Streak <b id="t-streak">${ts.streak}</b></span><span>Best <b id="t-best">${ts.best}</b></span></div>
+      </div>
+      <section class="card game theory" id="game"></section>
+      <div class="center"><button class="btn primary" id="next" hidden>Next question →</button> <button class="btn ghost small" id="reset">Reset score</button></div>
+      <p class="muted small center">${TH.QUESTIONS.length} questions, each with an explanation and the review or paper it comes from.</p>`;
+    const pool = () => TH.QUESTIONS.filter(q => ts.topic === "mix" || q.topic === ts.topic);
+    function nextQuestion() {
+      let left = pool().filter(q => !ts.seen.includes(q.id));
+      if (!left.length) { ts.seen = ts.seen.filter(id => !pool().some(q => q.id === id)); left = pool(); }
+      const q = left[Math.floor(Math.random() * left.length)];
+      const opts = q.type === "tf" ? [{ label: "True", right: q.answer === true }, { label: "False", right: q.answer === false }]
+        : q.options.map((label, i) => ({ label, right: i === 0 })).sort(() => Math.random() - 0.5);
+      const topic = q.topic === "ent" ? "et" : "rx";
+      setTopic(topic);
+      const g = $("#game");
+      g.innerHTML = `<div class="puzzle-head"><span class="badge topic-${topic}"><i>${q.topic === "ent" ? "Energy transfer" : "Photoredox"}</i>${q.type === "tf" ? "True or false?" : "Choose one"}</span></div>
+        <p class="question theory-q">${q.q}</p>
+        <div class="theory-opts ${q.type}">${opts.map((o, i) => `<button class="btn choice theory-opt" data-i="${i}">${o.label}</button>`).join("")}</div>
+        <div class="after"></div>`;
+      g.querySelectorAll(".theory-opt").forEach(b => b.onclick = () => {
+        const pickI = +b.dataset.i, ok = opts[pickI].right;
+        g.querySelectorAll(".theory-opt").forEach((x, i) => { x.disabled = true; if (opts[i].right) x.classList.add("right"); else if (i === pickI) x.classList.add("wrong"); });
+        ts.answered++; if (ok) ts.correct++; ts.streak = ok ? ts.streak + 1 : 0; ts.best = Math.max(ts.best, ts.streak);
+        if (!ts.seen.includes(q.id)) ts.seen.push(q.id);
+        store.set("theory", ts);
+        $("#t-ok").textContent = ts.correct + "/" + ts.answered; $("#t-streak").textContent = ts.streak; $("#t-best").textContent = ts.best;
+        $(".after", g).innerHTML = `<div class="reveal ${ok ? "won" : "lost"} theory-reveal">
+          <div class="big">${ok ? "Correct" : "Not quite"}</div>
+          <p>${q.explain}</p>
+          <div class="refs"><b>From the literature</b>${q.refs.map(k => TH.REFS[k]).map(r => `<a href="https://doi.org/${esc(r.doi)}" target="_blank" rel="noopener"><span>${esc(r.cite)}</span><em>${esc(r.title)}</em></a>`).join("")}</div>
+        </div>`;
+        $("#next").hidden = false; $("#next").focus();
+      });
+      $("#next").hidden = true;
+    }
+    document.querySelectorAll("[data-th]").forEach(b => b.onclick = () => { ts.topic = b.dataset.th; store.set("theory", ts); document.querySelectorAll("[data-th]").forEach(x => x.classList.toggle("on", x === b)); nextQuestion(); });
+    $("#next").onclick = nextQuestion;
+    $("#reset").onclick = () => { Object.assign(ts, { answered: 0, correct: 0, streak: 0, best: 0, seen: [] }); store.set("theory", ts); viewTheory(); };
+    nextQuestion();
+  }
+
   // ------------------------------------------------------------------ modals, menu, toast
   function modal(title, html) {
     const m = $("#modal");
@@ -443,8 +494,9 @@
         <li>📶 <b>Rank</b> — sort molecules by E<sub>T</sub>. 🟩 right place, 🟨 one place off.</li>
         <li>📏 <b>Potential scale</b> — place an excited-state potential on a scale that shows other photocatalysts as landmarks.</li>
       </ul>
+      <p>📚 <b>Theory</b> asks conceptual questions on energy transfer and photoredox catalysis (Dexter and Sandros, Stern–Volmer, Rehm–Weller and Marcus, quenching cycles, quantum yields, reference electrodes…). Each answer comes with an explanation and the review it is based on.</p>
       <p>💡 Hints are there when you are stuck; they show up in your shared result.</p>
-      <p>Today's puzzle is open to everyone. With the TrEDBox sign-in, <b>Archive</b> lets you play every past puzzle and <b>Free play</b> serves endless random questions in many formats: higher/lower, multiple choice, compute E* from E<sub>0,0</sub>, will energy transfer go, strongest excited-state oxidant, and more.</p>
+      <p>Everything is open to everyone, with no sign-in. <b>Archive</b> lets you play every past puzzle, <b>Free play</b> serves endless random questions in many formats: higher/lower, multiple choice, compute E* from E<sub>0,0</sub>, will energy transfer go, strongest excited-state oxidant, and more.</p>
       <p class="muted small">Data: ${esc(T.source)}. Only values verified by two curators in <a href="../">TrEDBox</a> (TrEnDB + ReDBox) are used, and new verified molecules are added automatically. Until the first sync, a small built-in sample of common literature values is used.</p>`);
   }
   let toastT;
@@ -465,8 +517,10 @@
   // ------------------------------------------------------------------ TrEDBox sign-in (same as the database)
   const needsLogin = section => ACC.enabled && !ACC.user && (CFG.loginRequiredFor || []).includes(section);
   function refreshAccountUI() {
-    document.body.classList.toggle("locked", ACC.enabled && !ACC.user);
-    $("#acct-top").hidden = !ACC.enabled; $("#acct-btn").hidden = !ACC.enabled;
+    // the sign-in only shows up when some section needs it (loginRequiredFor in game-config.js)
+    const gated = ACC.enabled && (CFG.loginRequiredFor || []).length > 0;
+    document.body.classList.toggle("locked", gated && !ACC.user);
+    $("#acct-top").hidden = !gated; $("#acct-btn").hidden = !gated;
     $("#acct-top").title = ACC.user ? "Signed in as " + ACC.name : "Sign in";
     $(".acct-dot").hidden = !ACC.user;
     $("#acct-btn").textContent = ACC.user ? "↩ Sign out" : "👤 Sign in to TrEDBox";
@@ -475,10 +529,11 @@
   }
   function viewLocked(section) {
     setTab(section);
-    setTitle("", section === "archive" ? "Archive · every past puzzle" : "Free play · endless questions");
+    const NAMES = { archive: ["The archive", "Archive · every past puzzle"], free: ["Free play", "Free play · endless questions"], theory: ["Theory", "Theory · questions from the literature"] };
+    setTitle("", NAMES[section][1]);
     main().innerHTML = `<section class="card locked-card">
       <div class="lock-big">🔒</div>
-      <h2>${section === "archive" ? "The archive" : "Free play"} is for signed-in TrEDBox users</h2>
+      <h2>${NAMES[section][0]} is for signed-in TrEDBox users</h2>
       <p>Today's puzzle is open to everyone. Sign in to TrEDBox to unlock:</p>
       <ul><li>🗂 every past daily puzzle, to play any time</li><li>♾ endless free-play questions in ten formats</li>
         <li>🟢 <a href="../#db">TrEnDB</a> and 🟣 <a href="../photoredbox/index.html#db">ReDBox</a>: the whole database, with sources</li></ul>
@@ -508,7 +563,8 @@
     clearInterval(cdTimer);
     const h = location.hash.replace(/^#\/?/, "");
     const [a, b] = h.split("/");
-    if ((a === "archive" || a === "free") && needsLogin(a)) viewLocked(a);
+    if ((a === "archive" || a === "free" || a === "theory") && needsLogin(a)) viewLocked(a);
+    else if (a === "theory") viewTheory();
     else if (a === "archive" && b) viewDaily(b, true);
     else if (a === "archive") viewArchive();
     else if (a === "free") viewFree();

@@ -253,3 +253,26 @@ body.locked .tabs .lock { display: inline; }
 .hub-link { font-family: Fredoka, Inter, sans-serif; font-weight: 600; font-size: .85rem; text-decoration: none; color: var(--hub-ink); border: 1px solid var(--border); padding: 6px 10px; }
 .locked-card ul a { color: inherit; font-weight: 600; }
 @media (max-width: 560px) { .hub-link { display: none; } }
+
+/* theory */
+.seg button[data-th="ent"].on { background: var(--te); color: #fff; }
+.seg button[data-th="prx"].on { background: var(--rx); color: #fff; }
+.seg button[data-th="mix"].on { background: linear-gradient(90deg, var(--te), var(--rx)); color: #fff; }
+.theory .puzzle-head { margin-bottom: 14px; }
+.theory-q { font-size: 1.12rem; line-height: 1.55; text-align: left; }
+.theory-opts { display: grid; gap: 8px; }
+.theory-opts.tf { grid-template-columns: 1fr 1fr; }
+.btn.theory-opt { font-family: Inter, system-ui, sans-serif; justify-content: flex-start; text-align: left; line-height: 1.4; padding: 12px 14px; font-weight: 500; }
+.theory-opts.tf .btn.theory-opt { justify-content: center; font-weight: 700; }
+.btn.theory-opt:disabled { cursor: default; }
+.theory-reveal { text-align: left; }
+.theory-reveal .big { text-align: center; }
+.theory-reveal p { line-height: 1.55; }
+.refs { display: grid; gap: 6px; margin-top: 10px; font-size: .88rem; }
+.refs b { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.refs a { display: grid; text-decoration: none; padding: 8px 10px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); }
+.refs a:hover { border-color: var(--text); }
+.refs a span { font-weight: 600; } .refs a em { font-style: normal; color: var(--muted); font-size: .82rem; }
+.tabs { overflow-x: auto; scrollbar-width: none; }
+.tabs a { white-space: nowrap; }
+@media (max-width: 560px) { .tabs a { padding: 8px 10px; } }
