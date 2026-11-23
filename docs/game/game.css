@@ -276,3 +276,9 @@ body.locked .tabs .lock { display: inline; }
 .tabs { overflow-x: auto; scrollbar-width: none; }
 .tabs a { white-space: nowrap; }
 @media (max-width: 560px) { .tabs a { padding: 8px 10px; } }
+
+/* answer buttons hold running text with sub/superscripts (E<sub>0,0</sub>, M<sup>−1</sup>): lay them out as
+   normal text, not as flex items, or every <sub>/<sup>/<i> becomes a separate, spaced-out block */
+.btn.choice { display: block; text-align: center; }
+.btn.theory-opt { text-align: left; }
+.theory-opts.tf .btn.theory-opt { text-align: center; }
